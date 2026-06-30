@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article';
+import { UpdateArticleDto } from './dto/update-article';
 
 @Controller('articles')
 export class ArticlesController {
@@ -23,7 +24,7 @@ export class ArticlesController {
   // Метод для получение одной статьи по ее id
   // http://127.0.0.1:3000/articles HTTP method = GET
   @Get(':id')
-  getById(@Param(':id') id: number) {
+  getById(@Param('id') id: number) {
     return this.service.getById(id);
   }
   // Метод для получение списка статей
@@ -35,13 +36,13 @@ export class ArticlesController {
   // Метод для обновления нашей статьи по ее id
   // http://127.0.0.1:3000/articles/1 HTTP method = PUT
   @Put(':id')
-  updateById(@Param(':id') id: number) {
-    return this.service.updateById(id);
+  updateById(@Param('id') id: number, @Body() data: UpdateArticleDto) {
+    return this.service.updateById(id, data);
   }
   // Метод для удаление нашей статьи по ее id
   // http://127.0.0.1:3000/articles/1 HTTP method = DELETE
   @Delete(':id')
-  deleteByID(@Param(':id') id: number) {
+  deleteByID(@Param('id') id: number) {
     return this.service.deleteById(id);
   }
   // CREATE READ UPDATE DELETE  CRUD
