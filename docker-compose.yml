@@ -1,0 +1,16 @@
+version: "3.6"
+
+services:
+  postgress:
+    image: postgres:16
+    container_name: postgresBlog
+    environment:
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: nestjs_blog
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
