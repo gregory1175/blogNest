@@ -1,0 +1,50 @@
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { ArticleEntity } from './article.entity';
+import { RefreshTokenEntity } from './refresh-token.entity';
+
+export enum EUserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
+@Entity('users')
+export class UserEntity extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  name!: string;
+
+  @Column({ unique: true })
+  email!: string;
+
+  @Column()
+  password!: string;
+
+  @Column({
+    type: 'enum',
+    enum: EUserRole,
+    default: EUserRole.USER,
+  })
+  role!: EUserRole;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
+
+  @OneToMany(() => ArticleEntity, (item) => item.author)
+  articles!: ArticleEntity[];
+
+  @OneToMany(() => RefreshTokenEntity, (item) => item.user)
+  refreshToken!: RefreshTokenEntity[];
+}
