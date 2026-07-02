@@ -6,10 +6,15 @@ import {
   Delete,
   Param,
   Body,
+  UseGuards,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article';
 import { UpdateArticleDto } from './dto/update-article';
+import { AuthGuard } from '../auth/auth.guard';
+import { EUserRole } from '../shared/modules/user.entity';
+import { Roles } from '../roles.decorator';
+import { RolesGuard } from '../roles.guard';
 
 @Controller('articles')
 export class ArticlesController {
@@ -17,6 +22,8 @@ export class ArticlesController {
   // Метод для создане статей
   // http://127.0.0.1:3000/articles HTTP method = POST
   @Post()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(EUserRole.ADMIN)
   create(@Body() data: CreateArticleDto) {
     return this.service.create(data);
   }
@@ -36,12 +43,16 @@ export class ArticlesController {
   // Метод для обновления нашей статьи по ее id
   // http://127.0.0.1:3000/articles/1 HTTP method = PUT
   @Put(':id')
+  @Roles(EUserRole.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   updateById(@Param('id') id: number, @Body() data: UpdateArticleDto) {
     return this.service.updateById(id, data);
   }
   // Метод для удаление нашей статьи по ее id
   // http://127.0.0.1:3000/articles/1 HTTP method = DELETE
   @Delete(':id')
+  @Roles(EUserRole.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   deleteByID(@Param('id') id: number) {
     return this.service.deleteById(id);
   }

@@ -3,5 +3,5 @@
 ** Команды для работы с docker
 
 ```bash
-docker-compose up build -u
+docker compose up --build -d
 ```
