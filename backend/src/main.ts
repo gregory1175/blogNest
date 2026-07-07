@@ -11,4 +11,4 @@ async function bootstrap() {
     console.log(`Server started on ${PORT}:${HOST}`);
   });
 }
-bootstrap();
+void bootstrap();
