@@ -11,7 +11,7 @@ export interface ISignUpModel {
 }
 
 const signUpApi = async (data: ISignUpModel): Promise<ISignUpResponse> => {
-    const res = await fetch('http://127.0.0.1:3000/auth/sign-up', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_PATH}/auth/sign-up`, {
     method: "POST",
     credentials: 'same-origin',
     headers: {
@@ -42,7 +42,7 @@ interface ISingInApi {
 }
 
 const signInApi = async (data: ISingInApi): Promise<ISignInResponse> => {
-    const res = await fetch('http://127.0.0.1:3000/auth/sign-in', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_PATH}/auth/sign-in`, {
     method: "POST",
     credentials: 'same-origin',
     headers: {
@@ -66,7 +66,7 @@ interface IRefreshTokenApi {
 }
 
 const refreshTokenApi = async(data: IRefreshTokenApi): Promise<unknown> => {
-    const res = await fetch('http://127.0.0.1:3000/auth/refresh-token', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_PATH}/auth/refresh-token`, {
     method: "POST",
     credentials: 'same-origin',
     headers: {
