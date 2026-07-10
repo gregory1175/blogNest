@@ -35,26 +35,26 @@ export default function Profile() {
     return (
         <div style={{display: 'flex', flexDirection: 'column', gap: '16px', padding: '32px 48px 0px', alignSelf: 'center', width: '800px'}}>
         <div style={{display: "flex", gap: "12px", flexDirection: 'column'}}>
-            <h1 style={{fontSize: '56px', fontWeight: '600', lineHeight: '120%'}}>Профиль</h1>
-            <NavLink href={"/"} style={{fontSize: '20px', fontWeight: '400', lineHeight: '120%'}}>Главная</NavLink> 
+            <h1 style={{fontSize: '56px', fontWeight: '600', lineHeight: '120%'}}>Profile</h1>
+            <NavLink href={"/"} style={{fontSize: '20px', fontWeight: '400', lineHeight: '120%'}}>Home</NavLink> 
         </div>
         <div>
         <form style={{display: 'flex', gap: '8px'}} onSubmit={handleSubmit}>
-            <h2>Регистрация</h2>
+            <h2>Sign up</h2>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <label>Имя</label>
+                <label>Name</label>
                 <input value={name} onChange={handleChangeName} style={{width: "140px", height: "38px", border: '1px solid black'}} type="text" id="name" name="name" required/>
             </div>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <label>Почта</label>
+                <label>Email</label>
                 <input value={email} onChange={handleChangeEmail} style={{width: "140px", height: "38px", border: '1px solid black'}} type="email" id="email" name="email" required/>
             </div>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <label>Пароль</label>
+                <label>Password</label>
                 <input value={password} onChange={handleChangePassword} style={{width: "140px", height: "38px", border: '1px solid black'}} type="password" id="password" name="password" required/>
             </div>
            
-            <button type="submit">Отправить</button>
+            <button type="submit">Send</button>
             </form> 
         </div>
         </div>

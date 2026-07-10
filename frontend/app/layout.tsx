@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "BlogNext",
-  description: "mini app on nest + next + postgress",
+  description: "App for create blogs on nest + next + postgress",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 
   return (
     <html
-      lang="ru"
+      lang="eng"
     >
         <body>{children}</body>
     </html>

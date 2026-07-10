@@ -1,6 +1,6 @@
 // стор для получение и передачи данных из таблицы на бек
 import { create } from "zustand";
-import { signUpApi } from "../service/api";
+import { signInApi, signUpApi } from "../service/api";
 
 // общие типы
 
@@ -19,7 +19,8 @@ interface IUseAuthStore  {
     getUserInfo: (name: string, email: string, password: string) => void;
     // функция для создания пользователя
     sendInfoForCreateUser: (name: string, email: string, password: string) => Promise<void>;
-
+    // функция для авторизации 
+    sendInfoForAuth: (name: string, email: string, password: string) => Promise<void>;
 }
 
 export const useAuthStore = create<IUseAuthStore>((set) =>({
@@ -29,6 +30,13 @@ export const useAuthStore = create<IUseAuthStore>((set) =>({
     email: null, 
     password: null,
 
+    getUserInfo: async(name, email, password) => {
+        set({name})
+        set({email})
+        set({password})
+        return    
+    },
+
     sendInfoForCreateUser: async (name, email, password) => {
     try {
         const model = {
@@ -37,22 +45,31 @@ export const useAuthStore = create<IUseAuthStore>((set) =>({
             password
         }
         const res = await signUpApi(model); 
-            set({ 
-                accessToken: res.accessToken,
-                refreshToken: res.refreshToken,
-            });
-    localStorage.setItem('refresh_token', res.refreshToken);  
+        set({ 
+            accessToken: res.accessToken,
+            refreshToken: res.refreshToken,
+        });
+        localStorage.setItem('refresh_token', res.refreshToken);  
     } catch (error: unknown) {
         throw new Error(`произошла ошибка ${error}`)
     }
     },
 
-    getUserInfo: async(name, email, password) => {
-    set({name})
-    set({email})
-    set({password})
-    return    
+    sendInfoForAuth: async(name, email, password) => {
+    try {
+        const model = {
+            name, 
+            email, 
+            password
+        }  
+        const res = await signInApi(model); 
+        set({ 
+            accessToken: res.accessToken,
+            refreshToken: res.refreshToken,
+        });
+        localStorage.setItem('refresh_token', res.refreshToken);
+        } catch (error: unknown) {
+            throw new Error(`произошла ошибка ${error}`)
+        }
     }
-})) 
-
-// тип + стор для авторизации
+}))

@@ -83,3 +83,6 @@ const refreshTokenApi = async(data: IRefreshTokenApi): Promise<unknown> => {
 }
 
 export {refreshTokenApi}
+
+// USER
+// get/me
