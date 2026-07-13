@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import * as bycrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignINDto } from './dto/sign-in.dto';
@@ -29,7 +29,7 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    const isPasswordValid = await bycrypt.compare(data.password, user.password);
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid password');
     }
@@ -52,7 +52,7 @@ export class AuthService {
       throw new BadRequestException('User already exists');
     }
 
-    const hashPass = await bycrypt.hash(data.password, 10);
+    const hashPass = await bcrypt.hash(data.password, 10);
 
     const userCreated = await this.userService.createUser(
       data.name,
@@ -97,6 +97,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    return this.getTokens(refreshToken.user);
+    const user = refreshToken.user;
+
+    await this.refreshTokenRepo.remove(refreshToken);
+    return this.getTokens(user);
   }
 }
