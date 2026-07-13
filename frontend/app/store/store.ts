@@ -8,9 +8,6 @@ import { signInApi, signUpApi } from "../service/api";
 // тип + стор для регистрации 
 
 interface IUseAuthStore  {
-    accessToken: null | string;
-    refreshToken: null | string;
-
     name: null | string;
     email: null | string;
     password: null | string;
@@ -20,12 +17,10 @@ interface IUseAuthStore  {
     // функция для создания пользователя
     sendInfoForCreateUser: (name: string, email: string, password: string) => Promise<void>;
     // функция для авторизации 
-    sendInfoForAuth: (name: string, email: string, password: string) => Promise<void>;
+    // sendInfoForAuth: (name: string, email: string, password: string) => Promise<void>;
 }
 
 export const useAuthStore = create<IUseAuthStore>((set) =>({
-    refreshToken: typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null,
-    accessToken: null, 
     name: null,
     email: null, 
     password: null,
@@ -45,31 +40,23 @@ export const useAuthStore = create<IUseAuthStore>((set) =>({
             password
         }
         const res = await signUpApi(model); 
-        set({ 
-            accessToken: res.accessToken,
-            refreshToken: res.refreshToken,
-        });
-        localStorage.setItem('refresh_token', res.refreshToken);  
+        console.log(res.message);
     } catch (error: unknown) {
         throw new Error(`произошла ошибка ${error}`)
     }
     },
 
-    sendInfoForAuth: async(name, email, password) => {
-    try {
-        const model = {
-            name, 
-            email, 
-            password
-        }  
-        const res = await signInApi(model); 
-        set({ 
-            accessToken: res.accessToken,
-            refreshToken: res.refreshToken,
-        });
-        localStorage.setItem('refresh_token', res.refreshToken);
-        } catch (error: unknown) {
-            throw new Error(`произошла ошибка ${error}`)
-        }
-    }
+    // sendInfoForAuth: async(name, email, password) => {
+    // try {
+    //     const model = {
+    //         name, 
+    //         email, 
+    //         password
+    //     }  
+    //     const res = await signInApi(model); 
+    //     console.log(res.message);
+    //     } catch (error: unknown) {
+    //         throw new Error(`произошла ошибка ${error}`)
+    //     }
+    // }
 }))

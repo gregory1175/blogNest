@@ -1,7 +1,6 @@
 // Регистрация
 export interface ISignUpResponse {
-  refreshToken: string;
-  accessToken: string;
+  message: string;
 }
 
 export interface ISignUpModel {
@@ -13,7 +12,7 @@ export interface ISignUpModel {
 const signUpApi = async (data: ISignUpModel): Promise<ISignUpResponse> => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_PATH}/auth/sign-up`, {
     method: "POST",
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
         'Content-Type': 'application/json' 
         },
@@ -44,7 +43,7 @@ interface ISingInApi {
 const signInApi = async (data: ISingInApi): Promise<ISignInResponse> => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_PATH}/auth/sign-in`, {
     method: "POST",
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
         'Content-Type': 'application/json' 
         },
