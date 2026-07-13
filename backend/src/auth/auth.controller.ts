@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { type Response } from 'express';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { SignInResponseDto } from './dto/sign-in-response.dto';
 import { SignINDto } from './dto/sign-in.dto';
 import { AuthService } from './auth.service';
@@ -15,8 +16,27 @@ export class AuthController {
   }
 
   @Post('sign-up')
-  async singUp(@Body() data: SignUpDto): Promise<SignInResponseDto> {
-    return this.service.singUp(data);
+  async singUp(
+    @Body() data: SignUpDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const tokens = await this.service.singUp(data);
+
+    res.cookie('access_token', tokens.accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+    });
+
+    res.cookie('refresh_token', tokens.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+    });
+
+    return {
+      message: 'Success',
+    };
   }
 
   @Post('refresh-token')
